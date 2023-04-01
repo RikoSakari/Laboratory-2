@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <math.h>
 
+//123456789
 using namespace std;
 void NewTable(), ShowTable(), SaveTable(), LoadTable(), Sort();
 int SortNumber(int j), SortMileage(int j), SortBrand(int j);
@@ -250,10 +251,9 @@ void Search() {
 
     cout << "Введите номер функции которую хотите использовать: " << endl;
     cout << "1. Поиск по регистрацинному номеру " << endl;
-    cout << "2. Сортировка по бренду " << endl;
-    cout << "3. Сортировка по пробегу " << endl;
+    cout << "2. Поиск по бренду " << endl;
+    cout << "3. Поиск по пробегу " << endl;
     cin >> command;
-    
     cout << "Введите строку для поиска: " << endl;
 
     if (command == 1) {
