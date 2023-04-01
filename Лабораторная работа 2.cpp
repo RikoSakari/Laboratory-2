@@ -8,7 +8,7 @@
 
 //123456789
 using namespace std;
-void NewTable(), ShowTable(), SaveTable(), LoadTable(), Sort();
+void NewTable(), ShowTable(), SaveTable(), LoadTable(), Sort(), Search();
 int SortNumber(int j), SortMileage(int j), SortBrand(int j);
 //10. Регистрационный номер автомобиля, марка, пробег.
 //Определить структурированный тип и набор  функций для работы с таблицей записей, реализованной в массиве структур.В перечень функций входят :
@@ -22,9 +22,9 @@ int SortNumber(int j), SortMileage(int j), SortBrand(int j);
 //·        вычисление с проверкой и использованием всех по заданному условию и формуле(например, общая сумма на всех счетах).
 
 struct car {
-        char number[30];
-        char brand[30];
-        int mileage;
+    char number[30];
+    char brand[30];
+    int mileage;
 };
 
 // Уровень 3 - представление таблицы
@@ -36,7 +36,6 @@ struct table {
 
 int main()
 {
-
     int command = -1;
     setlocale(LC_ALL, "Rus");
     printf("Введите номер функции которую хотите использовать:\n");
@@ -51,7 +50,8 @@ int main()
     printf("8. Изменение записи\n");
 
     while (true) {
-        scanf("Введите команду: %d", &command);
+        printf("Введите команду: ");
+        scanf("%d", &command);
 
         switch (command) {
         case 0:
@@ -73,7 +73,7 @@ int main()
             Sort();
             break;
         case 6:
-            printf("нет");
+            Search();
             break;
         case 7:
             printf("нет");
@@ -152,7 +152,7 @@ void Sort() {
     cout << "2. Сортировка по бренду " << endl;
     cout << "3. Сортировка по пробегу " << endl;
     cin >> command;
-    
+
     for (int i = 0; i < TableOfCar.len - 1; i++) {
         bool swapped = false;
         for (int j = 0; j < TableOfCar.len - i - 1; j++) {
@@ -211,7 +211,7 @@ int SortNumber(int j) {
     }
 }
 
-int SortBrand(int j){
+int SortBrand(int j) {
     int i = 0;
 
     char* str1 = TableOfCar.TBL[j].brand;
@@ -248,24 +248,84 @@ int  SortMileage(int j) {
 
 void Search() {
     int command = -1;
-
+    char char_value[20];
+    int int_value = 0;
+    int min_dif = INT_MAX;
+    int closest_index = -1;
+    int* mas_of_dif = new int[TableOfCar.len];
     cout << "Введите номер функции которую хотите использовать: " << endl;
     cout << "1. Поиск по регистрацинному номеру " << endl;
     cout << "2. Поиск по бренду " << endl;
     cout << "3. Поиск по пробегу " << endl;
     cin >> command;
-    cout << "Введите строку для поиска: " << endl;
+    cout << "Введите строку для поиска: ";
+    switch (command)
+    {
+    case 1:
 
-    if (command == 1) {
-        
-    }
+        cin >> char_value;
+        for (int i = 0; i < TableOfCar.len; i++) {
+            int dif = 0;
+            for (int j = 0; j < 20; j++) {
+                if (TableOfCar.TBL[i].number[j] != char_value[j]) {
+                    dif++;
+                }
+            }
+            if (dif < min_dif) {
+                min_dif = dif;
+            }
+            mas_of_dif[i] = dif;
+        }
 
-    if (command == 2) {
-        
-    }
+        for (int i = 0; i < TableOfCar.len; i++) {
 
-    if (command == 3) {
+            if (mas_of_dif[i] == min_dif) {
+                cout << left << i + 1 << ". " << setw(12) << left << TableOfCar.TBL[i].number << setw(20) << left << TableOfCar.TBL[i].brand << setw(12) << left << TableOfCar.TBL[i].mileage << endl;
+            }
+        }
+        break;
+    case 2:
+        cin >> char_value;
+        for (int i = 0; i < TableOfCar.len; i++) {
+            int dif = 0;
+            for (int j = 0; j < 20; j++) {
+                if (TableOfCar.TBL[i].brand[j] != char_value[j]) {
+                    dif++;
+                }
+            }
+            if (dif < min_dif) {
+                min_dif = dif;
+            }
+            mas_of_dif[i] = dif;
+        }
 
+        for (int i = 0; i < TableOfCar.len; i++) {
+
+            if (mas_of_dif[i] == min_dif) {
+                cout << left << i + 1 << ". " << setw(12) << left << TableOfCar.TBL[i].number << setw(20) << left << TableOfCar.TBL[i].brand << setw(12) << left << TableOfCar.TBL[i].mileage << endl;
+            }
+        }
+        break;
+    case 3:
+        cin >> int_value;
+        for (int i = 0; i < TableOfCar.len; i++) {
+            int dif = abs(TableOfCar.TBL[i].mileage - int_value);
+
+            if (dif < min_dif) {
+                min_dif = dif;
+            }
+            mas_of_dif[i] = dif;
+        }
+        for (int i = 0; i < TableOfCar.len; i++) {
+
+            if (mas_of_dif[i] == min_dif) {
+                cout << left << i + 1 << ". " << setw(12) << left << TableOfCar.TBL[i].number << setw(20) << left << TableOfCar.TBL[i].brand << setw(12) << left << TableOfCar.TBL[i].mileage << endl;
+            }
+        }
+        break;
+    default:
+        cout << "Неправильный ввод" << endl;
+        break;
     }
 
 }
